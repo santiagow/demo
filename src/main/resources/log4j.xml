@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/' debug="true">
+
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy/MM/dd hh:mm:ss}] %5p [%c{1}]: %m%n"/>
+		</layout>
+	</appender>
+
+	<!--<category name="org.hibernate">
+		<priority value="DEBUG" />
+	</category>
+	<category name="java.sql">
+		<priority value="debug" />
+	</category>-->
+
+	<appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="false"/>
+		<param name="file" value="log/demo.log"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p [%c{1}] %m%n"/>
+		</layout>
+	</appender>
+
+	<root>
+		<level value="DEBUG"/>
+		<appender-ref ref="consoleAppender"/>
+	</root>
+</log4j:configuration>
