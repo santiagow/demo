@@ -1,0 +1,20 @@
+[
+	"sys.cpu.user",
+	"sys.cpu.kernel",
+	"sys.cpu.iowait",
+	"sys.cpu.idle",
+	"sys.mem.used",
+	"sys.mem.free",
+	"sys.mem.total",
+	"sys.swap.used",
+	"sys.swap.free",
+	"sys.swap.total",
+	"sys.disk.used",
+	"sys.disk.free",
+	"sys.disk.total",
+	"sys.network.send",
+	"sys.network.received",
+	"app.zookeeper.threads",
+	"app.zookeeper.connections",
+	"app.zookeeper.mem"
+]
