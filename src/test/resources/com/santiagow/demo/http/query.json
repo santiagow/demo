@@ -1,0 +1,10 @@
+{
+	"keys": [
+		"Name",
+		"City",
+		"Country",
+		"Gender",
+		"Age",
+		"Favorite"
+	]
+}

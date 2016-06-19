@@ -1,4 +1,4 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http;
 
 /**
  * @author Santiago Wang

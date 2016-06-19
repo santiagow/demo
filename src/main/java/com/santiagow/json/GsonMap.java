@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -173,7 +172,7 @@ public class GsonMap implements JsonMap {
 			return null;
 		}
 
-		return new GsonMap((Map)obj);
+		return new GsonMap((Map) obj);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http;
 
+import com.santiagow.demo.http.mock.MockHttpClient;
+import com.santiagow.test.TestUtil;
 import com.santiagow.util.IoUtil;
 import org.junit.After;
 import org.junit.Assert;
@@ -11,15 +13,17 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
-import static com.santiagow.demo.server.MockHttpServerHandler.ApiPath;
+import static com.santiagow.demo.http.WebServerHandler.ApiPath;
+import static com.santiagow.test.TestUtil.checkConnection;
 
 /**
- * Created by Santiago on 2016/1/25.
+ * @author Santiago Wang
+ * @since 2016/6/19
  */
-public class MockHttpServerTest {
-	private Logger LOG = LoggerFactory.getLogger(MockHttpServerTest.class);
+public class WebServerTest {
+	private Logger LOG = LoggerFactory.getLogger(WebServerTest.class);
 	private SocketAddress addr;
-	private MockHttpServer httpServer;
+	private WebServer server;
 
 	private String saveBody;
 	private String queryBody;
@@ -29,26 +33,26 @@ public class MockHttpServerTest {
 	@Before
 	public void setup() throws Exception {
 		addr = new InetSocketAddress("localhost", 8080);
-		httpServer = new MockHttpServer(addr, false);
+		server = new WebServer(addr);
 
-		saveBody = getContentByFileName("com/santiagow/demo/server/save.json");
-		queryBody = getContentByFileName("com/santiagow/demo/server/query.json");
-		updateBody = getContentByFileName("com/santiagow/demo/server/update.json");
-		removeBody = getContentByFileName("com/santiagow/demo/server/remove.json");
+		saveBody = TestUtil.getContentByFileName("com/santiagow/demo/http/save.json");
+		queryBody = TestUtil.getContentByFileName("com/santiagow/demo/http/query.json");
+		updateBody = TestUtil.getContentByFileName("com/santiagow/demo/http/update.json");
+		removeBody = TestUtil.getContentByFileName("com/santiagow/demo/http/remove.json");
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		IoUtil.close(httpServer);
+		IoUtil.close(server);
 	}
 
 	@Test
 	public void testCRUD() throws Exception {
-		httpServer.startServer();
+		server.startService();
 
 		Thread.sleep(1000);
 
-		Assert.assertTrue(httpServer.isStarted());
+		Assert.assertTrue(server.isActive());
 
 		MockHttpClient client = new MockHttpClient(addr);
 		client.connect();
@@ -95,7 +99,57 @@ public class MockHttpServerTest {
 		LOG.info("remove response: \n{}", resp);
 	}
 
-	private String getContentByFileName(String fileName) {
-		return IoUtil.getContentFromStream(this.getClass().getClassLoader().getResourceAsStream(fileName));
+	@Test
+	public void testPauseResume() throws Exception {
+		server.startService();
+
+		Thread.sleep(1000);
+
+		Assert.assertTrue(server.isActive());
+		checkConnection(addr, true);
+
+		// pause
+		server.pause();
+
+		Thread.sleep(1000);
+
+		checkConnection(addr, false);
+
+		// resume
+		server.resume();
+
+		Thread.sleep(1000);
+
+		checkConnection(addr, true);
+
 	}
+
+	@Test
+	public void testStop() throws Exception {
+		server.startService();
+
+		Thread.sleep(1000);
+
+		Assert.assertTrue(server.isActive());
+		checkConnection(addr, true);
+
+		// stop
+		server.stop();
+
+		Thread.sleep(1000);
+
+		checkConnection(addr, false);
+
+		// start again
+		try {
+			server.start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		Thread.sleep(1000);
+
+		checkConnection(addr, false);
+	}
+
 }

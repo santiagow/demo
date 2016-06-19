@@ -1,4 +1,4 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http.mock;
 
 import com.google.gson.Gson;
 import com.santiagow.json.GsonMap;
@@ -188,7 +188,7 @@ public class MockHttpServerHandler extends SimpleChannelInboundHandler<FullHttpR
 			} else {
 				resDataMap = new HashMap<String, Object>();
 
-				for(int i=0, n=keysAr.length(); i<n; i++){
+				for (int i = 0, n = keysAr.length(); i < n; i++) {
 					String key = keysAr.optString(i);
 					resDataMap.put(key, dataMap.get(key));
 				}
@@ -247,7 +247,7 @@ public class MockHttpServerHandler extends SimpleChannelInboundHandler<FullHttpR
 			} else {
 				sucKeys = new HashSet<String>();
 
-				for(int i=0, n=keysAr.length(); i<n; i++){
+				for (int i = 0, n = keysAr.length(); i < n; i++) {
 					String key = keysAr.optString(i);
 					Object value = dataMap.remove(key);
 					if (value != null) {
@@ -331,10 +331,6 @@ public class MockHttpServerHandler extends SimpleChannelInboundHandler<FullHttpR
 			return paths;
 		}
 
-		public String getPath() {
-			return path;
-		}
-
 		public static ApiPath getEnumByPath(String path) {
 			if (StringUtils.isEmpty(path)) {
 				return NONE;
@@ -347,6 +343,10 @@ public class MockHttpServerHandler extends SimpleChannelInboundHandler<FullHttpR
 			}
 
 			return NONE;
+		}
+
+		public String getPath() {
+			return path;
 		}
 	}
 }

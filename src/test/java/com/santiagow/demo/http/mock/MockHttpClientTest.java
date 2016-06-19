@@ -1,4 +1,4 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http.mock;
 
 import com.santiagow.util.IoUtil;
 import org.junit.After;
@@ -16,13 +16,13 @@ public class MockHttpClientTest {
 	private MockHttpClient httpClient;
 
 	@Before
-	public void setup() throws Exception{
+	public void setup() throws Exception {
 		addr = new InetSocketAddress("localhost", 8080);
 		httpClient = new MockHttpClient(addr);
 	}
 
 	@After
-	public void tearDown() throws Exception{
+	public void tearDown() throws Exception {
 		IoUtil.close(httpClient);
 	}
 
