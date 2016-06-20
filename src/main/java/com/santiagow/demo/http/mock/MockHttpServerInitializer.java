@@ -1,4 +1,4 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http.mock;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

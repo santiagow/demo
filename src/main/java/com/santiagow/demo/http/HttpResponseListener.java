@@ -1,4 +1,4 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http;
 
 /**
  * HTTP response listener.
@@ -9,7 +9,10 @@ package com.santiagow.demo.server;
 public interface HttpResponseListener {
 
 	void setResponseBody(String body);
+
 	void setFinished(boolean isFinished);
+
 	String getResponse(long timeout);
+
 	String getResponse();
 }

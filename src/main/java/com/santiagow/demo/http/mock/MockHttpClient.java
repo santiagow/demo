@@ -1,5 +1,6 @@
-package com.santiagow.demo.server;
+package com.santiagow.demo.http.mock;
 
+import com.santiagow.demo.http.HttpResponseListener;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -32,7 +33,7 @@ public class MockHttpClient implements Closeable {
 
 	public void connect() {
 		Bootstrap boot = new Bootstrap();
-		final EventLoopGroup group = new NioEventLoopGroup();
+		group = new NioEventLoopGroup();
 
 		channelHandler = new MockHttpClientHandler();
 		boot.group(group)
@@ -115,6 +116,7 @@ public class MockHttpClient implements Closeable {
 		}
 	}
 
+	//TODO: this handler may only can be reused by the same http connection
 	@ChannelHandler.Sharable
 	public static class MockHttpClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 		private StringBuilder sb = new StringBuilder();
@@ -139,7 +141,7 @@ public class MockHttpClient implements Closeable {
 				if (content instanceof LastHttpContent) {
 					//assume that netty keep the order of http response
 					Iterator<HttpResponseListener> it = respListeners.iterator();
-					while(it.hasNext()) {
+					while (it.hasNext()) {
 						HttpResponseListener respListener = it.next();
 						respListener.setResponseBody(sb.toString());
 						respListener.setFinished(true);
@@ -152,7 +154,7 @@ public class MockHttpClient implements Closeable {
 					sb.setLength(0);
 				} else if (!isChunked) {
 					Iterator<HttpResponseListener> it = respListeners.iterator();
-					while(it.hasNext()) {
+					while (it.hasNext()) {
 						HttpResponseListener respListener = it.next();
 						respListener.setResponseBody(sb.toString());
 						respListener.setFinished(true);

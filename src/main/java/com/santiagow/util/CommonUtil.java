@@ -3,10 +3,12 @@ package com.santiagow.util;
 import com.google.gson.Gson;
 
 /**
- * Created by Santiago on 2016/1/27.
+ *
+ * @author Santiago Wang
+ * @since 2016/6/19
  */
-public class CommonUtil {
-	private static final ThreadLocal<Gson> LOCAL_GSON = new ThreadLocal<Gson>(){
+public final class CommonUtil {
+	private static final ThreadLocal<Gson> LOCAL_GSON = new ThreadLocal<Gson>() {
 		public Gson initialValue() {
 			return new Gson();
 		}
@@ -17,7 +19,7 @@ public class CommonUtil {
 	 *
 	 * @return
 	 */
-	public static Gson getSafeGson(){
+	public static Gson getSafeGson() {
 		return LOCAL_GSON.get();
 	}
 }
